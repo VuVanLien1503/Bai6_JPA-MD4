@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div th:insert="/layout::nav"></div>
+<div STYLE="margin-left: 400px;margin-top: 50px ;width: 400px">
+    <h1>List Classroom</h1>
+    <table class="table table-hover" style="margin-top: 20px">
+        <thead>
+        <tr>
+            <td colspan="2">
+                <a class="btn btn-info" th:href="@{/student}">
+                    Back to student</a></td>
+            <td colspan="2" style="text-align: right">
+                <a type="button" class="btn btn-success"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal1">Create
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th colspan="2" style="text-align: center">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="element,stt:${classroomList}">
+            <td th:text="${stt.count}"></td>
+            <td th:text="${element.name}"></td>
+            <td>
+                <a th:href="@{/classrooms/update/__${element.id}__}" class="btn btn-success">UPDATE</a>
+            </td>
+            <td>
+                <button type="button" class="btn btn-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">Delete
+                </button>
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Delete-Classroom</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h4>Bạn Có Muốn Xóa <span style="color: red" th:text="${element.name}"></span>
+                                    Không...??</h4>
+                            </div>
+                            <div class="modal-footer">
+                                <a th:href="@{/classrooms}" class="btn btn-secondary" data-bs-dismiss="modal">Close</a>
+                                <a th:href="@{/classrooms/delete/__${element.id}__}" class="btn btn-danger">DELETE</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form th:action="@{/classrooms/create} " th:object="${classroom}" method="post">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1">Create New-Classroom</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name Classroom</label>
+                    <input type="text" class="form-control" name="name"  id="name" >
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a th:href="@{/classrooms}" class="btn btn-secondary" data-bs-dismiss="modal">Close</a>
+                <button class="btn btn-danger">CreateNew</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:insert="/layout::footer">
+</div>
+</body>
+</html>
